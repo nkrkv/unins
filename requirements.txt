@@ -1,0 +1,3 @@
+iso8601==0.1.12
+Logbook==1.4.0
+pyinsales==0.7.5
