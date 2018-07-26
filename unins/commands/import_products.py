@@ -5,7 +5,7 @@ import logbook
 class ProductImporter:
     log = logbook.Logger('unins.product_import')
 
-    def __init__(self, insales_api, unleashed_api, db):
+    def __init__(self, insales_api, unleashed_api, db_connection):
         self.insales_api = insales_api
         self.unleashed_api = unleashed_api
         self.db = db

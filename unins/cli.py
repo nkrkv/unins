@@ -4,6 +4,8 @@ import os
 import sys
 import argparse
 from insales import InSalesApi
+from unins import unleashed
+from unins.unleashed import UnleashedApi
 from logbook import StderrHandler
 from commands.import_products import ProductImporter
 
@@ -34,6 +36,10 @@ def import_products(args):
     pi = ProductImporter(insales_api, None, None)
     pi.import_all()
 
+def import_so(args):
+    unleashed_api = UnleashedApi(args.unleashed_id, args.unleashed_key)
+    unleashed.create_sales_order(unleashed_api)
+
 def main():
     parser = argparse.ArgumentParser(prog='unins')
 
@@ -49,10 +55,21 @@ def main():
         "--insales-password", action=EnvDefault, envvar='UNINS_INSALES_PASSWORD',
         help="InSales API password")
 
+    parser.add_argument(
+        "--unleashed-id", action=EnvDefault, envvar='UNINS_UNLEASHED_ID',
+        help="Unleashed API ID")
+
+    parser.add_argument(
+        "--unleashed-key", action=EnvDefault, envvar='UNINS_UNLEASHED_KEY',
+        help="Unleashed private key")
+
     subparsers = parser.add_subparsers()
 
     parser_import_products = subparsers.add_parser('import-products')
     parser_import_products.set_defaults(func=import_products)
+
+    parser_import_so = subparsers.add_parser('import-so')
+    parser_import_so.set_defaults(func=import_so)
 
     args = parser.parse_args()
 
